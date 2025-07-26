@@ -22,7 +22,7 @@ async function VehicleModels({ makeId, year }: { makeId: string; year: string })
   }
   
   export default async function  ResultPage({ params }: ResultPageProps) {
-    const {makeId,year} = params;
+    const {makeId, year} = await params;
   
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
