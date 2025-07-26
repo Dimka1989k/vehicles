@@ -1,6 +1,7 @@
 import { fetchMakes, fetchModels } from "@/utils/api";
 import { VehicleModel } from "@/types/api";
 import { Suspense } from "react";
+import Link from "next/link";
 
 async function VehicleModels({ makeId, year }: { makeId: string; year: string }) {
     const models: VehicleModel[] = await fetchModels(makeId, year);
@@ -20,7 +21,7 @@ async function VehicleModels({ makeId, year }: { makeId: string; year: string })
     params: { makeId: string; year: string };
   }
   
-  export default function ResultPage({ params }: ResultPageProps) {
+  export default async function  ResultPage({ params }: ResultPageProps) {
     const {makeId,year} = params;
   
     return (
@@ -32,6 +33,9 @@ async function VehicleModels({ makeId, year }: { makeId: string; year: string })
         <Suspense fallback={<div>Loading vehicle models...</div>}>
           <VehicleModels makeId={makeId} year={year} />
         </Suspense>
+        <Link href="/" className="inline-block mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+          Back to Home
+        </Link>
       </div>
     </div>
     );
