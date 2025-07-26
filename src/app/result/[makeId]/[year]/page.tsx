@@ -5,6 +5,7 @@ import Link from "next/link";
 
 async function VehicleModels({ makeId, year }: { makeId: string; year: string }) {
   const models: VehicleModel[] = await fetchModels(makeId, year);
+
   return (
     <ul className="mt-4 space-y-2">
       {models.map((model) => (
@@ -16,14 +17,11 @@ async function VehicleModels({ makeId, year }: { makeId: string; year: string })
   );
 }
 
-interface PageProps {
-  params: {
-    makeId: string;
-    year: string;
-  };
-}
-
-export default async function ResultPage({ params }: PageProps) {
+export default async function ResultPage({
+  params,
+}: {
+  params: { makeId: string; year: string };
+}) {
   const { makeId, year } = await params;
 
   return (
@@ -35,23 +33,25 @@ export default async function ResultPage({ params }: PageProps) {
         <Suspense fallback={<div>Loading vehicle models...</div>}>
           <VehicleModels makeId={makeId} year={year} />
         </Suspense>
-        <Link href="/" className="inline-block mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+        <Link
+          href="/"
+          className="inline-block mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+        >
           Back to Home
         </Link>
       </div>
     </div>
-    );
-  }
+  );
+}
 
 export async function generateStaticParams() {
   const makes = await fetchMakes();
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: currentYear - 2014 }, (_, i) => (2015 + i).toString());
-  const paths = makes.flatMap((make) =>
+  return makes.flatMap((make) =>
     years.map((year) => ({
       makeId: make.MakeId.toString(),
       year,
     }))
   );
-  return paths;
 }
