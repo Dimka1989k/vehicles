@@ -1,8 +1,7 @@
 import { fetchMakes, fetchModels } from "@/utils/api";
-import { VehicleModel } from "@/types/api";
+import type { VehicleModel } from "@/types/api";
 import { Suspense } from "react";
 import Link from "next/link";
-import PageProps from "next/types";
 
 async function VehicleModels({ makeId, year }: { makeId: string; year: string }) {
   const models: VehicleModel[] = await fetchModels(makeId, year);
@@ -18,10 +17,10 @@ async function VehicleModels({ makeId, year }: { makeId: string; year: string })
 }
 
 interface PageProps {
-  params: {
-    makeId: string;
-    year: string;
-  };
+  params: Promise<{
+    makeId: string
+    year: string
+  }>
 }
 
 export default async function ResultPage({ params }: PageProps) {
