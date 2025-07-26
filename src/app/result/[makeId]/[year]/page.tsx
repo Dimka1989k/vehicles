@@ -4,28 +4,30 @@ import { Suspense } from "react";
 import Link from "next/link";
 
 async function VehicleModels({ makeId, year }: { makeId: string; year: string }) {
-    const models: VehicleModel[] = await fetchModels(makeId, year);
-  
-    return (
-      <ul className="mt-4 space-y-2">
-        {models.map((model) => (
-          <li key={model.Model_ID} className="p-2 border rounded">
-            {model.Model_Name}
-          </li>
-        ))}
-      </ul>
-    );
-  }
-  
-  interface ResultPageProps {
-    params: { makeId: string; year: string };
-  }
-  
-  export default async function  ResultPage({ params }: ResultPageProps) {
-    const {makeId, year} = await params;
-  
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+  const models: VehicleModel[] = await fetchModels(makeId, year);
+  return (
+    <ul className="mt-4 space-y-2">
+      {models.map((model) => (
+        <li key={model.Model_ID} className="p-2 border rounded">
+          {model.Model_Name}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+interface PageProps {
+  params: {
+    makeId: string;
+    year: string;
+  };
+}
+
+export default async function ResultPage({ params }: PageProps) {
+  const { makeId, year } = await params;
+
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
       <div className="bg-white p-6 rounded shadow-lg w-11/12 max-w-4xl text-center">
         <h1 className="text-3xl font-bold mb-4">
           Models for Make ID: {makeId}, Year: {year}
